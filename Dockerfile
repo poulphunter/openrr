@@ -25,4 +25,9 @@ RUN apt-get install -y python-setuptools
 RUN cd /root && git clone https://github.com/ablab/quast.git
 RUN cd /root/quast && python setup.py install_full
 
+RUN curl -L -O https://www.megasoftware.net/releases/megax-cc_10.1.8-1_amd64.deb
+RUN apt --fix-broken install
+RUN dpkg -i megax-cc_10.1.8-1_amd64.deb
+RUN rm megax-cc_10.1.8-1_amd64.deb
+
 EXPOSE 22
