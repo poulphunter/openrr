@@ -1,33 +1,71 @@
+# docker build -t poulphunter/openrr-bio .
 FROM debian:9.7
-RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8
-RUN apt-get -y upgrade
-RUN apt-get update && apt-get install -y apt-utils
-RUN apt-get update && apt-get install -y openssh-server
-RUN apt-get install -y htop screen nano curl git-core git-gui git-doc git
-RUN apt-get install -y build-essential module-assistant dkms
-RUN apt-get install -y fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft
-RUN apt-get install -y pkg-config libfreetype6-dev libpng-dev python-matplotlib
+RUN apt-get update && \
+	apt-get -y upgrade && \
+	export DEBIAN_FRONTEND=noninteractive && \
+	apt-get install -y --no-install-recommends htop screen nano curl git-core git-gui git-doc git pkg-config libfreetype6-dev libpng-dev  python-biopython python-matplotlib python-setuptools gconf-service gconf2-common libdbus-glib-1-2 libgconf-2-4 libgtk2.0-0 apt-utils bzip2 \
+	fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft
 
-RUN cd /root && git clone https://github.com/dkoboldt/varscan.git
+# fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft
+#RUN apt-get install -y --no-install-recommends fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft
 
-RUN cd /root && curl -L -O https://github.com/voutcn/megahit/releases/download/v1.2.9/MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz && tar zvxf MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz && rm MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz
+# Quast
+RUN cd /root && curl -L -o /root/quast.tar.bz2 https://sourceforge.net/projects/covfiles/files/openrr_v1/quast.tar.bz2/download && \
+curl -L -o /root/quast.tar.bz2.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/quast.tar.bz2.md5/download && \
+md5sum -c quast.tar.bz2.md5 && \
+tar -xjvf ./quast.tar.bz2 && \
+rm quast.tar.bz2 && \
+rm quast.tar.bz2.md5 && \
+&& cd /root/quast && git reset --hard HEAD && \
+git pull && python setup.py install_full
 
-RUN cd /root && curl -L -O https://github.com/DerrickWood/kraken2/archive/master.zip && unzip master.zip && cd kraken2-master/ && ./install_kraken2.sh /usr/bin
+# MegaX-CC
+RUN cd /root && curl -L -o megax-cc_10.1.8-1_amd64.deb https://sourceforge.net/projects/covfiles/files/openrr_v1/megax-cc_10.1.8-1_amd64.deb/download
+RUN cd /root && curl -L -o megax-cc_10.1.8-1_amd64.deb.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/megax-cc_10.1.8-1_amd64.deb.md5/download && md5sum -c megax-cc_10.1.8-1_amd64.deb.md5
+RUN dpkg -i /root/megax-cc_10.1.8-1_amd64.deb
+RUN rm /root/megax-cc_10.1.8-1_amd64.deb && rm /root/megax-cc_10.1.8-1_amd64.deb.md5
 
-RUN cd /root && git clone https://github.com/marbl/Krona.git && cd /root/Krona/KronaTools/ && ./install.pl
+# SPAdes
+RUN cd /root && curl -L -o SPAdes-3.14.0-Linux.tar.gz https://sourceforge.net/projects/covfiles/files/openrr_v1/SPAdes-3.14.0-Linux.tar.gz/download
+RUN cd /root && curl -L -o SPAdes-3.14.0-Linux.tar.gz.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/SPAdes-3.14.0-Linux.tar.gz.md5/download && md5sum -c SPAdes-3.14.0-Linux.tar.gz.md5
+RUN cd /root && tar -xzvf ./SPAdes-3.14.0-Linux.tar.gz && rm SPAdes-3.14.0-Linux.tar.gz && rm SPAdes-3.14.0-Linux.tar.gz.md5
+
+# MEGAHIT
+RUN cd /root && curl -L -o MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz https://sourceforge.net/projects/covfiles/files/openrr_v1/MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz/download
+RUN cd /root && curl -L -o MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz.md5/download && md5sum -c MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz.md5
+RUN cd /root && tar -xzvf ./MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz && rm MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz && rm MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz.md5
+
+# Krona
+RUN cd /root && curl -L -o Krona.tar.bz2 https://sourceforge.net/projects/covfiles/files/openrr_v1/Krona.tar.bz2/download
+RUN cd /root && curl -L -o Krona.tar.bz2.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/Krona.tar.bz2.md5/download && md5sum -c Krona.tar.bz2.md5
+RUN cd /root && tar -xjvf ./Krona.tar.bz2 && rm Krona.tar.bz2 && rm Krona.tar.bz2.md5
+RUN cd /root/Krona && git reset --hard HEAD &&  git pull
+RUN cd /root/Krona/KronaTools/ && ./install.pl
 #RUN cd /root/Krona/KronaTools/ && mkdir taxonomy && ./updateTaxonomy.sh && ./updateAccessions.sh
 
-RUN cd /root && curl -L -O http://cab.spbu.ru/files/release3.14.0/SPAdes-3.14.0-Linux.tar.gz && tar zvxf SPAdes-3.14.0-Linux.tar.gz && rm SPAdes-3.14.0-Linux.tar.gz
+# Varscan
+RUN cd /root && curl -L -o varscan.tar.bz2 https://sourceforge.net/projects/covfiles/files/openrr_v1/varscan.tar.bz2/download
+RUN cd /root && curl -L -o varscan.tar.bz2.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/varscan.tar.bz2.md5/download && md5sum -c varscan.tar.bz2.md5
+RUN cd /root && tar -xjvf ./varscan.tar.bz2 && rm varscan.tar.bz2 && rm varscan.tar.bz2.md5
+RUN cd /root/varscan && git reset --hard HEAD &&  git pull
 
-RUN apt-get install -y python-setuptools
-RUN cd /root && git clone https://github.com/ablab/quast.git
-RUN cd /root/quast && python setup.py install_full
+# Kraken2
+RUN cd /root && curl -L -o kraken2-master.zip https://sourceforge.net/projects/covfiles/files/openrr_v1/kraken2-master.zip/download
+RUN cd /root && curl -L -o kraken2-master.zip.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/kraken2-master.zip.md5/download && md5sum -c kraken2-master.zip.md5
+RUN cd /root && unzip ./kraken2-master.zip && rm kraken2-master.zip && rm kraken2-master.zip.md5
+RUN cd /root/kraken2-master && ./install_kraken2.sh /usr/bin
 
-RUN curl -L -O https://www.megasoftware.net/releases/megax-cc_10.1.8-1_amd64.deb
-RUN apt install -y gconf-service gconf2-common libdbus-glib-1-2 libgconf-2-4
-RUN dpkg -i megax-cc_10.1.8-1_amd64.deb
-RUN rm megax-cc_10.1.8-1_amd64.deb
+# FigTree
+RUN cd /root && curl -L -o FigTree_v1.4.4.tgz  https://sourceforge.net/projects/covfiles/files/openrr_v1/FigTree_v1.4.4.tgz/download
+RUN cd /root && curl -L -o FigTree_v1.4.4.tgz.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/FigTree_v1.4.4.tgz.md5/download && md5sum -c FigTree_v1.4.4.tgz.md5
+RUN cd /root && tar -xzvf ./FigTree_v1.4.4.tgz && rm FigTree_v1.4.4.tgz && rm FigTree_v1.4.4.tgz.md5
 
-EXPOSE 22
+
+RUN apt-get install -y curl grep sed dpkg && \
+    TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
+    curl -L "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}.deb" > tini.deb && \
+    dpkg -i tini.deb && \
+    rm tini.deb && \
+    apt-get clean
+ENTRYPOINT [ "/usr/bin/tini", "--" ]
+CMD [ "/bin/bash" ]
