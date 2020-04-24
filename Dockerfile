@@ -1,4 +1,4 @@
-# docker build -t poulphunter/openrr-bio .
+# docker build -t poulphunter/openrr .
 FROM debian:9.7
 RUN apt-get update && \
 	apt-get -y upgrade && \
