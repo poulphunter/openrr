@@ -60,7 +60,7 @@ RUN cd /root && curl -L -o FigTree_v1.4.4.tgz  https://sourceforge.net/projects/
 && cd /root && curl -L -o FigTree_v1.4.4.tgz.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/FigTree_v1.4.4.tgz.md5/download && md5sum -c FigTree_v1.4.4.tgz.md5 \
 && cd /root && tar -xzvf ./FigTree_v1.4.4.tgz && rm FigTree_v1.4.4.tgz && rm FigTree_v1.4.4.tgz.md5
 
-# BMGE - Block Mapping and Gathering with Entropy
+# BMGE - Block Mapping and Gathering with Entropy - ftp://ftp.pasteur.fr/pub/gensoft/projects/BMGE/
 RUN cd /root && curl -L -o BMGE.jar  https://sourceforge.net/projects/covfiles/files/openrr_v1/BMGE.jar/download \
 && cd /root && curl -L -o BMGE.jar.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/BMGE.jar.md5/download && md5sum -c BMGE.jar.md5 \
 && cd /root && rm BMGE.jar.md5
