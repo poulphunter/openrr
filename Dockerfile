@@ -4,7 +4,7 @@ RUN apt-get update && \
 	apt-get -y upgrade && \
 	export DEBIAN_FRONTEND=noninteractive && \
 	apt-get install -y --no-install-recommends time htop screen nano curl git-core git-gui git-doc git pkg-config libfreetype6-dev libpng-dev  python-matplotlib python-setuptools gconf-service gconf2-common libdbus-glib-1-2 libgconf-2-4 libgtk2.0-0 libgtk2.0-bin apt-utils bzip2 make unzip g++ \
-	fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft
+	fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft fasttree
 
 # fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft
 #RUN apt-get install -y --no-install-recommends fastqc trimmomatic samtools hisat2 bedtools bcftools seqtk mafft
@@ -60,6 +60,10 @@ RUN cd /root && curl -L -o FigTree_v1.4.4.tgz  https://sourceforge.net/projects/
 && cd /root && curl -L -o FigTree_v1.4.4.tgz.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/FigTree_v1.4.4.tgz.md5/download && md5sum -c FigTree_v1.4.4.tgz.md5 \
 && cd /root && tar -xzvf ./FigTree_v1.4.4.tgz && rm FigTree_v1.4.4.tgz && rm FigTree_v1.4.4.tgz.md5
 
+# BMGE - Block Mapping and Gathering with Entropy
+RUN cd /root && curl -L -o BMGE.jar  https://sourceforge.net/projects/covfiles/files/openrr_v1/BMGE.jar/download \
+&& cd /root && curl -L -o BMGE.jar.md5 https://sourceforge.net/projects/covfiles/files/openrr_v1/BMGE.jar.md5/download && md5sum -c BMGE.jar.md5 \
+&& cd /root && rm BMGE.jar.md5
 
 RUN apt-get install -y curl grep sed dpkg && \
     TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
