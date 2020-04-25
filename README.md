@@ -13,22 +13,22 @@ source and destination is mounted in the same directory to avoid confusion.
   
 * [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) - Quality check   
 * [trimmomatic](http://www.usadellab.org/cms/index.php?page=trimmomatic) - Trimming and Adapter Removal  
-* [samtools] - Pre and post processing   
-* [hisat2] - Alignment  
-* [bedtools] - Consensus Genome and Variant calling   
-* [bcftools] - Consensus Genome and Variant calling   
-* [Varscan] - Consensus Genome and Variant calling  
-* [seqtk] - Consensus Genome and Variant calling  
-* [Quast] - Assembly evaluation and Statistics   
-* [SPAdes] - de novo Genome assembly  
-* [MEGAHIT] - de novo Genome assembly   
-* [Krona] - Evaluation of species diversity and Visualization   
-* [Kraken2] - Evaluation of species diversity and Visualization  
-* [MegaX-CC] - Phylogenetic analysis   
-* [mafft] - Phylogenetic analysis   
-* [fasttree] - Phylogenetic analysis   
-* [FigTree] - Phylogenetic analysis   
-* [BMGE] - Block Mapping and Gathering with Entropy   
+* [samtools](http://www.htslib.org/) - Pre and post processing   
+* [hisat2](https://ccb.jhu.edu/software/hisat2/manual.shtml) - Alignment  
+* [bedtools](https://bedtools.readthedocs.io/en/latest/) - Consensus Genome and Variant calling   
+* [bcftools](http://www.htslib.org/doc/bcftools.html) - Consensus Genome and Variant calling   
+* [Varscan](http://dkoboldt.github.io/varscan/) - Consensus Genome and Variant calling  
+* [seqtk](https://bioinf.shenwei.me/seqkit/) - Consensus Genome and Variant calling  
+* [Quast](http://quast.sourceforge.net/) - Assembly evaluation and Statistics   
+* [SPAdes](http://cab.spbu.ru/software/spades/) - de novo Genome assembly  
+* [MEGAHIT](http://www.metagenomics.wiki/tools/assembly/megahit) - de novo Genome assembly   
+* [Krona](https://github.com/marbl/Krona/wiki) - Evaluation of species diversity and Visualization   
+* [Kraken2](https://ccb.jhu.edu/software/kraken2/) - Evaluation of species diversity and Visualization  
+* [MegaX-CC](https://www.megasoftware.net) - Phylogenetic analysis   
+* [mafft](https://mafft.cbrc.jp/alignment/software/) - Phylogenetic analysis   
+* [fasttree](http://microbesonline.org/fasttree/) - Phylogenetic analysis   
+* [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) - Phylogenetic analysis   
+* [BMGE](https://research.pasteur.fr/fr/software/bmge-block-mapping-and-gathering-with-entropy/) ( Block Mapping and Gathering with Entropy) - Phylogenetic analysis    
   
 * system utils like : time htop screen nano curl git  
   
